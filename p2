@@ -1,0 +1,196 @@
+/*
+Link: https://codeforces.com/contest/1687/problem/D
+
+
+Linda is a character who loves creating cute Maths problems.
+
+Let f(x)  be the minimal square number strictly greater than  x , and  g(x)  be the maximal square number less than or equal to  x . For example, f(1) = f(2) = g(4) = g(8) = 4 .
+
+A positive integer  x  is cute if  x - g(x) < f(x) - x . For example, 1, 5, and 11 are cute integers, while 3, 8, and 15 are not.
+
+Linda gives you an array values of length len. She wants you to find the smallest non-negative integer k such that values[i] + k is a cute number for any element of values.
+
+Create a C++ Function FindMinimumK that will return an integer denoting the smallest non-negative integer k required. Use appropriate Error Handling using the stdexcept library for the invalid test cases.
+
+Input Type
+
+A vector<int> denoting values
+An integer denoting len
+
+ Input Constraints
+
+ The length of values should be at least 1 and at most 1,000,000 inclusive.
+ Each value in values should be a positive integer.
+
+
+
+*/
+
+#include <vector>
+#include <cstdio>
+#include <stdexcept>
+#include <algorithm>
+
+long long FindMinimumK(std::vector<long long>& values) {
+  
+    int len = values.size();
+
+    if (len < 1 || len > 1000000) {
+        throw std::invalid_argument("len out of bounds");
+    }
+    
+    for (int i = 0; i < len; ++i) {
+        if (values[i] < 1 || values[i] > 2000000) {
+            throw std::invalid_argument("values element out of bounds");
+        }
+        if (i > 0 && values[i] < values[i - 1]) {
+            throw std::invalid_argument("values not sorted");
+        }
+    }
+
+    long long const max_n = 2000001;
+  
+    std::vector<long long> head(len + 10), tail(len + 10);
+    std::vector<std::vector<long long>> merge(max_n);
+
+    for (int i = 0; i < len; ++i) {
+        head[i] = i - 1;
+        tail[i] = i + 1;
+    }
+    
+    for (int i = 1; i < len; ++i) {
+        merge[values[i] - values[i - 1]].push_back(i);
+    }
+    
+    for (long long i = 0;; ++i) {
+        for (long long j : merge[i]) {
+            tail[head[j]] = tail[j];
+            head[tail[j]] = head[j];
+        }
+        
+        long long s_val = i * i - values[0], x_val = 0, y_val = s_val + i, j_val = i;
+        for (long long l = 0; l < len; l = tail[l]) {
+            while (j_val * (j_val + 1) < values[l] + s_val) {
+                ++j_val;
+            }
+            x_val = std::max(x_val, j_val * j_val - values[l]);
+            y_val = std::min(y_val, j_val * (j_val + 1) - values[tail[l] - 1]);
+        }
+        
+        if (x_val <= y_val) {
+            return {x_val};
+        }
+    }
+}
+
+
+
+int main() {
+  
+  //TEST
+    std::vector<long long> values_1 = {1, 5, 11};
+    long long expected_1 = 0;
+    long long result_1 = FindMinimumK(values_1);
+ assert(result_1 == expected_1);
+    //TEST_END
+
+    //TEST
+    std::vector<long long> values_2 = {3, 8, 15};
+    long long expected_2 = 1;
+    long long result_2 = FindMinimumK(values_2);
+  assert(result_2 == expected_2);
+    //TEST_END
+
+    //TEST
+    std::vector<long long> values_3 = {2, 3, 4};
+    long long expected_3 = 2;
+    long long result_3 = FindMinimumK(values_3);
+ assert(result_3 == expected_3);
+    //TEST_END
+
+    //TEST
+    std::vector<long long> values_4 = {8, 15, 24};
+    long long expected_4 = 1;
+    long long result_4 = FindMinimumK(values_4);
+ assert(result_4 == expected_4);
+    //TEST_END
+
+    //TEST
+    std::vector<long long> values_5 = {10, 14, 20};
+    long long expected_5 = 6;
+    long long result_5 = FindMinimumK(values_5);
+  assert(result_5 == expected_5);
+    //TEST_END
+
+    //TEST
+    std::vector<long long> values_6 = {6, 9, 25};
+    long long expected_6 = 0;
+    long long result_6 = FindMinimumK(values_6);
+ assert(result_6 == expected_6);
+    //TEST_END
+
+    //TEST
+    std::vector<long long> values_7 = {7, 13, 22};
+    long long expected_7 = 3;
+    long long result_7 = FindMinimumK(values_7);
+ assert(result_7 == expected_7);
+    //TEST_END
+
+    //TEST
+    std::vector<long long> values_8 = {16, 23, 30};
+    long long expected_8 = 26;
+    long long result_8 = FindMinimumK(values_8);
+assert(result_8 == expected_8);
+    //TEST_END
+
+    //TEST
+    std::vector<long long> values_9 = {5, 12, 17};
+    long long expected_9 = 0;
+    long long result_9 = FindMinimumK(values_9);
+    assert(result_9 == expected_9);
+    //TEST_END
+
+    // Error Test Case
+    //TEST
+    std::vector<long long> values_10 = {5, 7, -9};
+    try {
+        FindMinimumK(values_10);
+        assert(false); 
+    } catch (const std::invalid_argument& e) {
+        assert(true); 
+    }
+    //TEST_END
+
+    //TEST
+    std::vector<long long> values_11 = {-1, 0, 3};
+    try {
+        FindMinimumK(values_11);
+        assert(false); 
+    } catch (const std::invalid_argument& e) {
+        assert(true); 
+    }
+    //TEST_END
+
+    //TEST
+    std::vector<long long> values_12 = {};
+    try {
+        FindMinimumK(values_12);
+        assert(false); 
+    } catch (const std::invalid_argument& e) {
+        assert(true); 
+    }
+    //TEST_END
+
+    //TEST
+    std::vector<long long> values_13 = {0, -5};
+    try {
+        FindMinimumK(values_13);
+        assert(false); 
+    } catch (const std::invalid_argument& e) {
+        assert(true); 
+    }
+    //TEST_END
+
+    
+    return 0;
+}

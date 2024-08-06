@@ -4,7 +4,7 @@ Link: https://codeforces.com/contest/896/problem/D
 
 
 Linda loves to make movies, so Nephren helps her run a cinema. We may call it No. 68 Cinema.
-However, one day, the No. 68 Cinema runs out of changes (they don't have 50-yuan notes currently), but Nephren still wants to start their business. (Assume that yuan is a kind of currency in Regulu Ere.)
+However, one day, the No. 68 Cinema runs out of changes (they don't have 50-yuan notes currently), but Nephren still wants to start their business. (Assume that yuan is a kind of currency in Regulure.
 
 There are three types of customers: some of them bring exactly a 50-yuan note; some of them bring a 100-yuan note and Nephren needs to give a 50-yuan note back to him/her; some of them bring VIP cards so that they don't need to pay for the ticket.
 

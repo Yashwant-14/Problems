@@ -1,0 +1,175 @@
+/*
+Link : https://codeforces.com/contest/1285/problem/F
+
+
+// Rewrite the given problem statement involving a character named Julie. 
+
+// Julie has an array named `elements`, consisting of `num_elements` integers. She needs to find the maximum value of the least common multiple (LCM) of any two elements in the array. The LCM of two integers is the smallest positive integer that is divisible by both integers. For example, LCM(6,8)=24, LCM(4,12)=12, and LCM(2,3)=6.
+
+// #### Rules for Problem Statement Transformation:
+// 1. Use the character Julie in the problem statement.
+// 2. All variable names should be in lowercase and use snake_case.
+// 3. Ensure the variable names are descriptive and have a length of at least 3 characters.
+// 4. Use UTF-8 font.
+// 5. Follow the normal writing style used in documentation.
+
+
+
+Julie has an array named `elements`, consisting of `num_elements` integers. She wants to find the maximum value of the least common multiple (LCM) of any two elements in the array. The LCM of two integers is the smallest positive integer that is divisible by both integers. For example, LCM(6,8)=24, LCM(4,12)=12, and LCM(2,3)=6.
+
+
+Create a C++ Function `MaxLCM` that will return an integer denoting the maximum value of the least common multiple of two elements in the array.
+
+Use appropriate error handling using the `stdexcept` library for invalid test cases.
+
+Input Type
+- A vector of integers named `elements`.
+- An integer named `num_elements`.
+
+Input Constraints
+- The number of elements, `num_elements`, should be between 2 and 100,000 inclusive.
+- Each element in `elements` should be between 1 and 100,000 inclusive.
+
+
+*/
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <stdexcept>
+#include <cassert>
+#include <numeric>
+
+long long ComputeLcm(long long a_val, long long b_val) {
+    return a_val * b_val / std::gcd(a_val, b_val);
+}
+
+long long MaxLCM(std::vector<long long>& vec) {
+  
+    if (vec.size() < 2 || vec.size() > 100000) {
+        throw std::invalid_argument("Invalid vec size");
+    }
+
+    for (const long long& element : vec) {
+        if (element < 1 || element > 100000) {
+            throw std::invalid_argument("Invalid vec element");
+        }
+    }
+    std::sort(vec.begin(), vec.end()); 
+  
+    long long vec_size = vec.size();
+    long long max_1 = vec[vec_size - 1];
+    long long max_2 = vec[vec_size - 2];
+    long long max_3 = 1;
+    long long max_4 = 1;
+    long long result = 0;
+
+    if (vec_size > 2) max_3 = vec[vec_size - 3];
+
+    for (long long i = 0; i < vec_size; i++) {
+        long long temp = vec[i];
+        if (temp % 2 != max_1 % 2) max_4 = std::max(max_4, temp);
+    }
+
+    for (long long i = 0; i < vec_size; i++) {
+        result = std::max(result, ComputeLcm(max_1, vec[i]));
+        result = std::max(result, ComputeLcm(max_2, vec[i]));
+        result = std::max(result, ComputeLcm(max_3, vec[i]));
+        result = std::max(result, ComputeLcm(max_4, vec[i]));
+    }
+
+    return result;
+}
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <stdexcept>
+#include <cassert>
+#include <numeric>
+
+int main() {
+      // TEST 1
+        vector<long long> vec_1 = {1, 2, 3, 4, 5};
+        long long result_1 = MaxLCM(vec_1);
+     
+         assert(result_1 == 20);
+
+        // TEST 2
+        vector<long long> vec_2 = {6, 7, 8, 9, 10};
+        long long result_2 = MaxLCM(vec_2);
+
+         assert(result_2 == 90);
+
+        // TEST 3
+        vector<long long> vec_3 = {1, 100000};
+        long long result_3 = MaxLCM(vec_3);
+        
+         assert(result_3 == 100000);
+
+        // TEST 4
+        vector<long long> vec_4 = {99999, 100000};
+        long long result_4 = MaxLCM(vec_4);
+        
+         assert(result_4 == 9999900000);
+
+        // TEST 5
+        vector<long long> vec_5 = {12, 15, 20, 25};
+        long long result_5 = MaxLCM(vec_5);
+        
+         assert(result_5 == 300);
+
+        // TEST 6
+        vector<long long> vec_6 = {1, 2};
+        long long result_6 = MaxLCM(vec_6);
+        
+        assert(result_6 == 2);
+
+        // TEST 7
+        vector<long long> vec_7 = {1, 1, 1, 1, 1};
+        long long result_7 = MaxLCM(vec_7);
+       
+         assert(result_7 == 1);
+
+        // TEST 8
+        vector<long long> vec_8 = {100000, 99999, 99998};
+        long long result_8 = MaxLCM(vec_8);
+        
+         assert(result_8 == 9999900000);
+
+        // TEST 9
+        vector<long long> vec_9 = {50000, 50001};
+        long long result_9 = MaxLCM(vec_9);
+        assert(result_9 == 2500050000);
+
+        // TEST 10 (Invalid input - element out of range)
+        vector<long long> vec_10 = {0, 1, 2};
+        try {
+            long long result_10 = MaxLCM(vec_10);
+            assert(false);
+        } catch (const invalid_argument& e) {
+            assert(true);
+        }
+
+        // TEST 11 (Invalid input - num_elements out of range)
+        vector<long long> vec_11(100001, 1);
+        try {
+            long long result_11 = MaxLCM(vec_11);
+            assert(false);
+        } catch (const invalid_argument& e) {
+            assert(true);
+        }
+
+        // TEST 12 (Invalid input - negative element)
+        vector<long long> vec_12 = {-1, 1, 2};
+        try {
+            long long result_12 = MaxLCM(vec_12);
+            assert(false);
+        } catch (const invalid_argument& e) {
+            assert(true);
+        }
+
+      
+
+    return 0;
+}

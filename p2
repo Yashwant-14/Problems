@@ -8,14 +8,14 @@ Let f(x)  be the minimal square number strictly greater than  x , and  g(x)  be 
 
 A positive integer  x  is cute if  x - g(x) < f(x) - x . For example, 1, 5, and 11 are cute integers, while 3, 8, and 15 are not.
 
-Linda gives you an array values of length len. She wants you to find the smallest non-negative integer k such that values[i] + k is a cute number for any element of values.
+Linda gives you an vector values of length len. She wants you to find the smallest non-negative integer k such that values[i] + k is a cute number for any element of values.
 
-Create a C++ Function FindMinimumK that will return an integer denoting the smallest non-negative integer k required. Use appropriate Error Handling using the stdexcept library for the invalid test cases.
+Create a C++ Function FindMinimumK that will return an integer denoting the smallest non-negative integer k required. 
+Use appropriate Error Handling using the stdexcept library for the invalid test cases.
 
 Input Type
 
 A vector<int> denoting values
-An integer denoting len
 
  Input Constraints
 

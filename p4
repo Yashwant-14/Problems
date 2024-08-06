@@ -1,22 +1,22 @@
 /*
 Link: https://codeforces.com/contest/889/problem/E
 
-### Transformed Problem Statement
 
-Julie has a sequence of integers `a1, a2, ..., an`. Let `f(x, i) = (ai + x) % ai+1`, and for `1 ≤ i < n`. Here, `%` denotes the modulus operation. Julie wants to find the maximum value of `f(x, 1)` over all nonnegative integers `x`.
+Julie has a sequence of integers `a1, a2, ..., an`. Let `f(x, i) = (ai + x) % ai+1`, and for `1 ≤ i < n`. Here, `%` denotes the modulus operation. 
+Julie wants to find the maximum value of `f(x, 1)` over all nonnegative integers `x`.
 
 Input:
-- The first line contains a single integer `length` (1 ≤ length ≤ 200,000) — the length of the sequence.
-- The second line contains `length` integers `values` (1 ≤ values[i] ≤ 10^13) — the elements of the sequence.
+You are given a 0 indexed vector  `values` (1 ≤ values[i] ≤ 10^13) — the elements of the sequence.
 
 Output:
-- Output a single integer — the maximum value of `f(x, 1)` over all nonnegative integers `x`.
+Return a single integer — the maximum value of `f(x, 1)` over all nonnegative integers `x`.
 
-Create a C++ Function `DeliverPackages` that will return an integer denoting the minimum number of trips required. Use appropriate Error Handling using the `stdexcept` library for the invalid test cases.
+Create a C++ Function `DeliverPackages` that will return an integer denoting the minimum number of trips required. 
+Use appropriate Error Handling using the `stdexcept` library for the invalid test cases.
 
 Input Type:
 
-std::vector<long long> values
+ vector<long long> denoting values
 
 
 Input Constraints:

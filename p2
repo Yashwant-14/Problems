@@ -150,7 +150,7 @@ assert(result_8 == expected_8);
     assert(result_9 == expected_9);
     //TEST_END
 
-    // Error Test Case
+    
     //TEST
     std::vector<long long> values_10 = {5, 7, -9};
     try {
